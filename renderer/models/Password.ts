@@ -1,18 +1,33 @@
-// models/Password.ts
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { User } from "./User";
 
 @Entity()
 export class Password {
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
-  title!: string;
+  title: string;
 
   @Column()
-  encryptedPassword!: string;
+  titleId: string;
 
-  @ManyToOne(() => User, (user) => user.passwords)
-  user!: User;
+  @Column()
+  encryptedPassword: string;
+
+  @ManyToOne(() => User, (user) => user.password)
+  user: User;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

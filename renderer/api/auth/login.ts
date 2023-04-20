@@ -14,7 +14,7 @@ export default async function handler(
     }
 
     // Replace the following line with the actual authentication logic
-    const user = await getRepository(User).findOne({ email });
+    const user = await getRepository(User).findOne(email);
 
     if (user) {
       // Verify the password and generate an authentication token

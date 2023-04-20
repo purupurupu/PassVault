@@ -1,18 +1,27 @@
-// models/User.ts
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Password } from "./Password";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Unique,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id!: number;
-
-  @Column({ unique: true })
-  email!: string;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
-  passwordHash!: string;
+  @Unique(["email"])
+  email: string;
 
-  @OneToMany(() => Password, (password) => password.user)
-  passwords!: Password[];
+  @Column()
+  password: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

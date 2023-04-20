@@ -1,4 +1,3 @@
-// api/passwords/create.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getRepository } from "typeorm";
 import { User } from "../../models/User";
@@ -20,7 +19,7 @@ export default async function handler(
     const userRepository = getRepository(User);
     const passwordRepository = getRepository(Password);
 
-    const user = await userRepository.findOne({ id: userId });
+    const user = await userRepository.findOneOrFail(userId);
 
     if (user) {
       const encryptedPassword = encrypt(password);
