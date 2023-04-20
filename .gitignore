@@ -34,7 +34,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# nextjs electron
 main
 dist
 renderer/.next
 renderer/out
+
+#sqlite
+database.sqlite
