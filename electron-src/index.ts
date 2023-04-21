@@ -8,14 +8,8 @@ import isDev from "electron-is-dev";
 import prepareNext from "electron-next";
 
 import { createConnection } from "typeorm";
-
-createConnection()
-  .then(() => {
-    console.log("Connected to the SQLite database");
-  })
-  .catch((error) =>
-    console.error("Error connecting to the SQLite database:", error)
-  );
+import { Password } from "../renderer/models/Password";
+import { User } from "../renderer/models/User";
 
 // Prepare the renderer once the app is ready
 app.on("ready", async () => {
@@ -38,6 +32,20 @@ app.on("ready", async () => {
         protocol: "file:",
         slashes: true,
       });
+
+  await createConnection({
+    type: "sqlite",
+    database: "password-app.sqlite",
+    synchronize: true,
+    logging: false,
+    entities: [User, Password],
+  })
+    .then(() => {
+      console.log("Connected to the SQLite database");
+    })
+    .catch((error) =>
+      console.error("Error connecting to the SQLite database:", error)
+    );
 
   mainWindow.loadURL(url);
 });
