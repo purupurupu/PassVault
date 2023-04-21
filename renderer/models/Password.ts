@@ -11,23 +11,23 @@ import { User } from "./User";
 @Entity()
 export class Password {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id!: string;
 
   @Column()
-  title: string;
+  title!: string;
 
   @Column()
-  titleId: string;
+  titleId!: string;
 
   @Column()
-  encryptedPassword: string;
+  encryptedPassword!: string;
 
   @ManyToOne(() => User, (user) => user.password)
-  user: User;
+  user!: User;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt!: Date;
 }

@@ -10,18 +10,18 @@ import {
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id!: string;
 
   @Column()
   @Unique(["email"])
-  email: string;
+  email!: string;
 
   @Column()
-  password: string;
+  password!: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt!: Date;
 }

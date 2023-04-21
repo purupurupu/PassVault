@@ -41,4 +41,4 @@ renderer/.next
 renderer/out
 
 #sqlite
-database.sqlite
+*.sqlite

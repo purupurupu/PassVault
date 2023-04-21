@@ -2,7 +2,7 @@
   "name": "pass-vault",
   "version": "1.0.0",
   "private": true,
-  "main": "main/index.js",
+  "main": "main/electron-src/index.js",
   "productName": "PassVault",
   "scripts": {
     "clean": "rimraf dist main renderer/out renderer/.next",
