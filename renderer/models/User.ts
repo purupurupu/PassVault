@@ -2,26 +2,29 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  Unique,
+  OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { Password } from "./Password";
 
-@Entity()
+@Entity("users")
 export class User {
-  @PrimaryGeneratedColumn("uuid")
-  id!: string;
+  @PrimaryGeneratedColumn("increment")
+  id!: number;
 
-  @Column()
-  @Unique(["email"])
+  @Column({ type: "varchar", unique: true })
   email!: string;
 
-  @Column()
+  @Column({ type: "varchar" })
   password!: string;
 
-  @CreateDateColumn()
-  createdAt!: Date;
+  @CreateDateColumn({ type: "datetime" })
+  created_at!: Date;
 
-  @UpdateDateColumn()
-  updatedAt!: Date;
+  @UpdateDateColumn({ type: "datetime" })
+  updated_at!: Date;
+
+  @OneToMany(() => Password, (password) => password.user)
+  passwords!: Password[];
 }

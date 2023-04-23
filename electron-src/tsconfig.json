@@ -22,5 +22,11 @@
     "emitDecoratorMetadata": true
   },
   "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx", "**/*.js"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "../renderer/data-source.ts",
+    "../renderer/data-source.ts"
+  ]
 }

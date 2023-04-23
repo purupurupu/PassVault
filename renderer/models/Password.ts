@@ -8,26 +8,29 @@ import {
 } from "typeorm";
 import { User } from "./User";
 
-@Entity()
+@Entity("passwords")
 export class Password {
-  @PrimaryGeneratedColumn("uuid")
-  id!: string;
+  @PrimaryGeneratedColumn("increment")
+  id!: number;
 
-  @Column()
+  @Column({ type: "varchar" })
   title!: string;
 
-  @Column()
-  titleId!: string;
+  @Column({ type: "varchar" })
+  title_id!: string;
 
-  @Column()
-  encryptedPassword!: string;
+  @Column({ type: "varchar" })
+  encrypted_password!: string;
 
-  @ManyToOne(() => User, (user) => user.password)
+  @Column({ type: "integer" })
+  user_id!: number;
+
+  @CreateDateColumn({ type: "datetime" })
+  created_at!: Date;
+
+  @UpdateDateColumn({ type: "datetime" })
+  updated_at!: Date;
+
+  @ManyToOne(() => User, (user) => user.passwords, { onDelete: "CASCADE" })
   user!: User;
-
-  @CreateDateColumn()
-  createdAt!: Date;
-
-  @UpdateDateColumn()
-  updatedAt!: Date;
 }

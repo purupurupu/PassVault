@@ -7,12 +7,18 @@ import { BrowserWindow, app, ipcMain, IpcMainEvent } from "electron";
 import isDev from "electron-is-dev";
 import prepareNext from "electron-next";
 
-import { createConnection } from "typeorm";
-import { Password } from "../renderer/models/Password";
-import { User } from "../renderer/models/User";
+import { AppDataSource } from "../renderer/data-source";
+import "reflect-metadata";
 
 // Prepare the renderer once the app is ready
+
 app.on("ready", async () => {
+  AppDataSource.initialize()
+    .then(async () => {
+      console.log("Yeahhhhhhhhhhhhhhhhhhhhhhh!!!!!!!!!!!!!!!!.");
+    })
+    .catch((error) => console.log(error));
+
   await prepareNext("./renderer");
 
   const mainWindow = new BrowserWindow({
@@ -32,20 +38,6 @@ app.on("ready", async () => {
         protocol: "file:",
         slashes: true,
       });
-
-  await createConnection({
-    type: "sqlite",
-    database: "password-app.sqlite",
-    synchronize: true,
-    logging: false,
-    entities: [User, Password],
-  })
-    .then(() => {
-      console.log("Connected to the SQLite database");
-    })
-    .catch((error) =>
-      console.error("Error connecting to the SQLite database:", error)
-    );
 
   mainWindow.loadURL(url);
 });
