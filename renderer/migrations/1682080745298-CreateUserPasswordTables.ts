@@ -21,8 +21,19 @@ export class CreateUserPasswordTables1635432237186
             isUnique: true,
           },
           {
-            name: "passcd word",
+            name: "password",
             type: "varchar",
+          },
+          {
+            name: "created_at",
+            type: "datetime",
+            default: "CURRENT_TIMESTAMP",
+          },
+          {
+            name: "updated_at",
+            type: "datetime",
+            default: "CURRENT_TIMESTAMP",
+            onUpdate: "CURRENT_TIMESTAMP",
           },
         ],
       }),
@@ -45,21 +56,32 @@ export class CreateUserPasswordTables1635432237186
             type: "varchar",
           },
           {
-            name: "titleId",
+            name: "title_id",
             type: "varchar",
           },
           {
-            name: "encryptedPassword",
+            name: "encrypted_password",
             type: "varchar",
           },
           {
-            name: "userId",
+            name: "user_id",
             type: "integer",
+          },
+          {
+            name: "created_at",
+            type: "datetime",
+            default: "CURRENT_TIMESTAMP",
+          },
+          {
+            name: "updated_at",
+            type: "datetime",
+            default: "CURRENT_TIMESTAMP",
+            onUpdate: "CURRENT_TIMESTAMP",
           },
         ],
         foreignKeys: [
           {
-            columnNames: ["userId"],
+            columnNames: ["user_id"],
             referencedColumnNames: ["id"],
             referencedTableName: "users",
             onDelete: "CASCADE",

@@ -25,7 +25,7 @@ export default async function handler(
       const encryptedPassword = encrypt(password);
       const newPassword = new Password();
       newPassword.title = title;
-      newPassword.encryptedPassword = encryptedPassword;
+      newPassword.encrypted_password = encryptedPassword;
       newPassword.user = user;
 
       const savedPassword = await passwordRepository.save(newPassword);

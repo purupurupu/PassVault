@@ -28,7 +28,7 @@ export default async function handler(
     }
 
     password.title = title;
-    password.encryptedPassword = encryptedPassword;
+    password.encrypted_password = encryptedPassword;
 
     await passwordRepository.save(password);
 
