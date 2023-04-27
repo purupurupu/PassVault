@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const LoginForm = (isLoginForm, showLoginForm) => {
+const LoginForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,7 +24,7 @@ const LoginForm = (isLoginForm, showLoginForm) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+          className="w-full p-2 mt-1 border border-gray-300 rounded-md"
         />
       </div>
       <div className="mb-4">
@@ -40,14 +40,14 @@ const LoginForm = (isLoginForm, showLoginForm) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+          className="w-full p-2 mt-1 border border-gray-300 rounded-md"
         />
       </div>
       <button
         type="submit"
-        className="bg-blue-500 text-white py-2 px-4 rounded-md"
+        className="px-4 py-2 text-white bg-blue-500 rounded-md"
       >
-        Login
+        {props.isLoginForm ? "Login" : "Register"}
       </button>
     </form>
   );
