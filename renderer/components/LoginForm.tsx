@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { register } from "../services/auth";
 
 const LoginForm = (props) => {
   const [email, setEmail] = useState("");
@@ -7,6 +8,8 @@ const LoginForm = (props) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Call the login API and handle the response
+    const result = register(email, password);
+    console.log(result);
   };
 
   return (
