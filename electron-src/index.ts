@@ -7,8 +7,10 @@ import { BrowserWindow, app, ipcMain, IpcMainEvent } from "electron";
 import isDev from "electron-is-dev";
 import prepareNext from "electron-next";
 
-import { AppDataSource } from "../renderer/data-source";
+import { AppDataSource } from "./data-source";
 import "reflect-metadata";
+
+import { userRegister } from "./services/authService";
 
 // Prepare the renderer once the app is ready
 
@@ -26,7 +28,7 @@ app.on("ready", async () => {
     height: 600,
     webPreferences: {
       nodeIntegration: false,
-      contextIsolation: false,
+      contextIsolation: true, // def is false
       preload: join(__dirname, "preload.js"),
     },
   });
@@ -38,8 +40,8 @@ app.on("ready", async () => {
         protocol: "file:",
         slashes: true,
       });
-
   mainWindow.loadURL(url);
+  mainWindow.webContents.openDevTools();
 });
 
 // Quit the app once all windows are closed
@@ -49,4 +51,14 @@ app.on("window-all-closed", app.quit);
 ipcMain.on("message", (event: IpcMainEvent, message: any) => {
   console.log(message);
   setTimeout(() => event.sender.send("message", "hi from electron"), 500);
+});
+
+// Listen for IPC requests from renderer process
+ipcMain.on("user-register", async (event, email, password) => {
+  const data = await userRegister(email, password);
+  if (data) {
+    console.log(data);
+  }
+
+  event.reply("user-register-response", data);
 });

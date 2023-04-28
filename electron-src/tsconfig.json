@@ -26,7 +26,7 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
-    "../renderer/data-source.ts",
-    "../renderer/data-source.ts"
+    "data-source.ts",
+    "data-source.ts"
   ]
 }

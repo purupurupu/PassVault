@@ -22,7 +22,8 @@
     "**/*.ts",
     "**/*.tsx",
     "**/**/*.ts",
-    "**/**/*.tsx"
+    "**/**/*.tsx",
+    "../electron-src/data-source.ts"
   ],
   "exclude": ["node_modules"]
 }
