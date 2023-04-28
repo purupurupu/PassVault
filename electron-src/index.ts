@@ -54,11 +54,15 @@ ipcMain.on("message", (event: IpcMainEvent, message: any) => {
 });
 
 // Listen for IPC requests from renderer process
-ipcMain.on("user-register", async (event, email, password) => {
-  const data = await userRegister(email, password);
-  if (data) {
-    console.log(data);
-  }
+ipcMain.on(
+  "user-register",
+  async (event: IpcMainEvent, data: { email: string; password: string }) => {
+    // console.log(data.email, data.password); // this line is undefined!!!!!
 
-  event.reply("user-register-response", data);
-});
+    const res = await userRegister(data.email, data.password);
+    // if (res) {
+    //   console.log(res);
+    // }
+    event.reply("user-register-response", res);
+  }
+);

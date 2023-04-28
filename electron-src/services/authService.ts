@@ -7,6 +7,8 @@ import { User } from "../models/User";
 // import { hash } from "bcrypt";
 
 export const userRegister = async (email: any, password: string) => {
+  console.log(email);
+  console.log(password); // password is undefined
   try {
     const userRepository = AppDataSource.getRepository(User);
 
