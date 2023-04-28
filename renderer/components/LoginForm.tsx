@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { register } from "../ipc/auth";
+import { login, register } from "../ipc/auth";
 import { log } from "console";
 import Link from "next/link";
 
@@ -10,11 +10,16 @@ const LoginForm = (props) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Call the login API and handle the response
-    const result = await register(email, password);
+
+    const result = props.isLoginForm
+      ? await login(email, password)
+      : await register(email, password);
+
+    // console.log(result);
 
     if (result) {
       // Link to the dashboard
-      console.log("Registered");
+      console.log("Login or Registered");
       window.location.href = "/dashboard";
     } else {
       console.log("Failed to register");

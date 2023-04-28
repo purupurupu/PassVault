@@ -10,7 +10,7 @@ import prepareNext from "electron-next";
 import { AppDataSource } from "./data-source";
 import "reflect-metadata";
 
-import { userRegister } from "./services/authService";
+import { userLogin, userRegister } from "./services/authService";
 
 // Prepare the renderer once the app is ready
 
@@ -55,10 +55,19 @@ ipcMain.on("message", (event: IpcMainEvent, message: any) => {
 
 // Listen for IPC requests from renderer process
 ipcMain.on(
+  "user-login",
+  async (event: IpcMainEvent, data: { email: string; password: string }) => {
+    const res = await userLogin(data.email, data.password);
+    // if (res) {
+    //   console.log(res);
+    // }
+    event.reply("user-login-response", res);
+  }
+);
+
+ipcMain.on(
   "user-register",
   async (event: IpcMainEvent, data: { email: string; password: string }) => {
-    // console.log(data.email, data.password); // this line is undefined!!!!!
-
     const res = await userRegister(data.email, data.password);
     // if (res) {
     //   console.log(res);
