@@ -13,6 +13,9 @@ declare global {
       ipcRenderer: IpcRenderer;
     }
   }
+  interface Window {
+    ipcRenderer: IpcRenderer;
+  }
 }
 
 export type User = {

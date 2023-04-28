@@ -1,17 +1,30 @@
-/* eslint-disable @typescript-eslint/no-namespace */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ipcRenderer, IpcRenderer } from 'electron'
+import { ipcRenderer, contextBridge } from "electron";
+
+// Define a safe subset of ipcRenderer to expose to the renderer process
+const ipcRendererSubset = {
+  send: (channel: string, data: any) => {
+    ipcRenderer.send(channel, data);
+  },
+  once: (
+    channel: string,
+    callback: (event: Electron.IpcRendererEvent, ...args: any[]) => void
+  ) => {
+    ipcRenderer.once(channel, callback);
+  },
+  // Add any other ipcRenderer methods you need to expose
+};
+
+contextBridge.exposeInMainWorld("ipcRenderer", ipcRendererSubset);
 
 declare global {
-  namespace NodeJS {
-    interface Global {
-      ipcRenderer: IpcRenderer
-    }
+  interface Window {
+    ipcRenderer: {
+      send: (channel: string, data: any) => void;
+      once: (
+        channel: string,
+        callback: (event: Electron.IpcRendererEvent, ...args: any[]) => void
+      ) => void;
+      // Add any other ipcRenderer methods you need to expose
+    };
   }
 }
-
-// Since we disabled nodeIntegration we can reintroduce
-// needed node functionality here
-process.once('loaded', () => {
-  global.ipcRenderer = ipcRenderer
-})
