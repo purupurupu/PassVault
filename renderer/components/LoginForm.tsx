@@ -10,11 +10,14 @@ const LoginForm = (props) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Call the login API and handle the response
-    const result = register(email, password);
+    const result = await register(email, password);
+
     if (result) {
       // Link to the dashboard
       console.log("Registered");
       window.location.href = "/dashboard";
+    } else {
+      console.log("Failed to register");
     }
   };
 
