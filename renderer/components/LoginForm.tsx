@@ -6,6 +6,7 @@ import Link from "next/link";
 const LoginForm = (props) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,13 +23,21 @@ const LoginForm = (props) => {
       console.log("Login or Registered");
       window.location.href = "/dashboard";
     } else {
-      console.log("Failed to register");
+      // console.log("Failed to register");
+      setErrorMessage(
+        "Failed to login or register. Please check your email and password."
+      );
     }
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8">
+        {errorMessage && (
+          <div className="px-4 py-2 mb-4 text-white bg-red-500 rounded-md shadow-md">
+            {errorMessage}
+          </div>
+        )}
         <div className="mb-4">
           <label
             htmlFor="email"
