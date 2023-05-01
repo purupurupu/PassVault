@@ -4,7 +4,7 @@ interface PasswordFormProps {
   onSubmit: (title: string, password: string) => void;
 }
 
-const PasswordForm: React.FC<PasswordFormProps> = ({ onSubmit }) => {
+const PasswordForm: any = ({ onSubmit }) => {
   const [title, setTitle] = useState("");
   const [password, setPassword] = useState("");
 
@@ -30,7 +30,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ onSubmit }) => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
-          className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+          className="w-full p-2 mt-1 border border-gray-300 rounded-md"
         />
       </div>
       <div className="mb-4">
@@ -46,12 +46,12 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ onSubmit }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+          className="w-full p-2 mt-1 border border-gray-300 rounded-md"
         />
       </div>
       <button
         type="submit"
-        className="bg-blue-500 text-white py-2 px-4 rounded-md"
+        className="px-4 py-2 text-white bg-blue-500 rounded-md"
       >
         Save
       </button>

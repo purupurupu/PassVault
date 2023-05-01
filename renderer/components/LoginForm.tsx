@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { login, register } from "../ipc/auth";
+import { login, register } from "../ipc/users";
 import { log } from "console";
 import Link from "next/link";
 
