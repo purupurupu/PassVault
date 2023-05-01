@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import { login, register } from "../ipc/users";
 import { log } from "console";
 import Link from "next/link";
+import { useAuth } from "../context/AuthContext";
 
 const LoginForm = (props) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const { user, setUser } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Call the login API and handle the response
-
     const result = props.isLoginForm
       ? await login(email, password)
       : await register(email, password);
@@ -19,11 +19,11 @@ const LoginForm = (props) => {
     // console.log(result);
 
     if (result) {
+      setUser(result);
       // Link to the dashboard
       console.log("Login or Registered");
       window.location.href = "/dashboard";
     } else {
-      // console.log("Failed to register");
       setErrorMessage(
         "Failed to login or register. Please check your email and password."
       );
