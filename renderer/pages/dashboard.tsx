@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useAuth } from "../context/AuthContext";
+
 import PasswordForm from "../components/PasswordForm";
 import PasswordList from "../components/PasswordList";
 // import { getPasswords } from "../services/passwords";
@@ -7,6 +9,7 @@ import PasswordList from "../components/PasswordList";
 export default function Dashboard() {
   const [passwords, setPasswords] = useState([]);
   const router = useRouter();
+  const { user } = useAuth();
 
   //   useEffect(() => {
   //     async function fetchData() {
@@ -28,6 +31,12 @@ export default function Dashboard() {
         <div className="absolute inset-0 transform -skew-y-6 shadow-lg bg-gradient-to-r from-cyan-400 to-light-blue-500 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
           <h1 className="mb-4 text-4xl font-bold">Password Manager</h1>
+          {user && (
+            <p>
+              Welcome, {user.email} (User ID: {user.id})
+            </p>
+          )}
+
           {/* <PasswordForm setPasswords={setPasswords} />
           <PasswordList passwords={passwords} setPasswords={setPasswords} /> */}
         </div>

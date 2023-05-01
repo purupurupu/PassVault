@@ -15,8 +15,6 @@ export const login = async (email: string, password: string) => {
 
     // Listen for the response from main process
     window.ipcRenderer.once("user-login-response", (event, receivedData) => {
-      console.log(receivedData);
-
       resolve(receivedData);
     });
   });
