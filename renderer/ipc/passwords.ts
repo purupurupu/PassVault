@@ -15,26 +15,32 @@
 //   }
 // };
 
-export const getPasswords = async (id) => {
+export const ipcGetPasswordList = async (userId) => {
   return new Promise((resolve, reject) => {
-    window.ipcRenderer.send("get-passwords", { id });
+    // console.log("ipcGetAllPasswords");
+
+    window.ipcRenderer.send("get-all-passwords", { userId });
 
     // Listen for the response from main process
-    window.ipcRenderer.once("get-passwords-response", (event, receivedData) => {
-      resolve(receivedData);
-    });
+    window.ipcRenderer.once(
+      "get-all-passwords-response",
+      (event, receivedData) => {
+        resolve(receivedData);
+      }
+    );
   });
 };
 
-export const createPassword = async (id) => {
+export const ipcCreatePassword = async (userId) => {
   return new Promise((resolve, reject) => {
-    window.ipcRenderer.send("user-login", { id });
+    window.ipcRenderer.send("create-password", { userId });
 
     // Listen for the response from main process
-    window.ipcRenderer.once("user-login-response", (event, receivedData) => {
-      console.log(receivedData);
-
-      resolve(receivedData);
-    });
+    window.ipcRenderer.once(
+      "create-password-response",
+      (event, receivedData) => {
+        resolve(receivedData);
+      }
+    );
   });
 };

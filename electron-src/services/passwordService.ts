@@ -1,32 +1,28 @@
 import { AppDataSource } from "../data-source";
 import { User } from "../models/User";
-import { hash, compare } from "bcrypt";
+import { Password } from "../models/Password";
 
-export const userLogin = async (email: any, password: string) => {
+import { hash } from "bcrypt";
+
+export const getPasswordList = async (userId: number) => {
   try {
-    const userRepository = AppDataSource.getRepository(User);
-    const user: User | null = await userRepository.findOne({
-      where: { email: email },
+    const userRepository = AppDataSource.getRepository(Password);
+    const passwordList: Password[] = await userRepository.find({
+      where: { user_id: userId },
     });
 
-    if (user === null) {
+    if (passwordList.length == 0) {
       return false;
     }
 
-    const isPasswordValid = await compare(password, user.password);
-
-    if (!isPasswordValid) {
-      return false;
-    }
-
-    return user;
+    return passwordList;
   } catch (error) {
     console.error("Error logging in user:", error);
     return { message: "Internal server error", error };
   }
 };
 
-export const userRegister = async (email: string, password: string) => {
+export const createPassword = async (email: any, password: string) => {
   try {
     const userRepository = AppDataSource.getRepository(User);
     const existingUser = await userRepository.findOne({

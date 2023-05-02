@@ -4,26 +4,26 @@ import { useAuth } from "../context/AuthContext";
 
 import PasswordForm from "../components/PasswordForm";
 import PasswordList from "../components/PasswordList";
-// import { getPasswords } from "../services/passwords";
+import { ipcGetPasswordList } from "../ipc/passwords";
 
 export default function Dashboard() {
   const [passwords, setPasswords] = useState([]);
   const router = useRouter();
   const { user } = useAuth();
 
-  //   useEffect(() => {
-  //     async function fetchData() {
-  //       try {
-  //         const data = await getPasswords();
-  //         setPasswords(data);
-  //       } catch (err) {
-  //         console.error(err);
-  //         router.push("/");
-  //       }
-  //     }
-
-  //     fetchData();
-  //   }, []);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data: any = await ipcGetPasswordList(user.id);
+        setPasswords(data);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    if (user) {
+      fetchData();
+    }
+  }, [user]);
 
   return (
     <div className="flex flex-col justify-center min-h-screen py-6 bg-gray-100 sm:py-12">
@@ -37,8 +37,9 @@ export default function Dashboard() {
             </p>
           )}
 
-          {/* <PasswordForm setPasswords={setPasswords} />
-          <PasswordList passwords={passwords} setPasswords={setPasswords} /> */}
+          {/* <PasswordForm setPasswords={setPasswords} /> */}
+          {/* <PasswordList passwords={passwords} setPasswords={setPasswords} /> */}
+          <PasswordList passwords={passwords} />
         </div>
       </div>
     </div>
