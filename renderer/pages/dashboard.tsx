@@ -7,7 +7,7 @@ import PasswordList from "../components/PasswordList";
 import { ipcGetPasswordList } from "../ipc/passwords";
 
 export default function Dashboard() {
-  const [passwords, setPasswords] = useState([]);
+  const [passwordList, setPasswordList] = useState([]);
   const router = useRouter();
   const { user } = useAuth();
 
@@ -15,7 +15,7 @@ export default function Dashboard() {
     async function fetchData() {
       try {
         const data: any = await ipcGetPasswordList(user.id);
-        setPasswords(data);
+        setPasswordList(data);
       } catch (err) {
         console.error(err);
       }
@@ -32,14 +32,14 @@ export default function Dashboard() {
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
           <h1 className="mb-4 text-4xl font-bold">Password Manager</h1>
           {user && (
-            <p>
-              Welcome, {user.email} (User ID: {user.id})
-            </p>
+            <div>
+              <p>
+                Welcome, {user.email} (User ID: {user.id})
+              </p>
+              <PasswordForm userId={user.id} />
+              <PasswordList passwordList={(user.id, passwordList)} />
+            </div>
           )}
-
-          {/* <PasswordForm setPasswords={setPasswords} /> */}
-          {/* <PasswordList passwords={passwords} setPasswords={setPasswords} /> */}
-          <PasswordList passwords={passwords} />
         </div>
       </div>
     </div>

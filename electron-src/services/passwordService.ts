@@ -1,13 +1,12 @@
 import { AppDataSource } from "../data-source";
-import { User } from "../models/User";
 import { Password } from "../models/Password";
 
 import { hash } from "bcrypt";
 
 export const getPasswordList = async (userId: number) => {
   try {
-    const userRepository = AppDataSource.getRepository(Password);
-    const passwordList: Password[] = await userRepository.find({
+    const passwordRepository = AppDataSource.getRepository(Password);
+    const passwordList: Password[] = await passwordRepository.find({
       where: { user_id: userId },
     });
 
@@ -22,24 +21,25 @@ export const getPasswordList = async (userId: number) => {
   }
 };
 
-export const createPassword = async (email: any, password: string) => {
+export const createPassword = async (
+  userId: number,
+  title: string,
+  password: string
+) => {
   try {
-    const userRepository = AppDataSource.getRepository(User);
-    const existingUser = await userRepository.findOne({
-      where: { email: email },
-    });
+    const passwordRepository = AppDataSource.getRepository(Password);
+    const hashedPassword = await hash(password, 10);
 
-    if (existingUser !== null) {
+    const newPassword = new Password();
+    newPassword.title = title;
+    newPassword.encrypted_password = hashedPassword;
+    newPassword.user_id = userId;
+
+    if (newPassword !== null) {
       return false;
     }
 
-    const hashedPassword = await hash(password, 10);
-
-    const user = new User();
-    user.email = email;
-    user.password = hashedPassword;
-    const response = await userRepository.save(user);
-
+    const response = await passwordRepository.save(newPassword);
     return response;
   } catch (error) {
     console.error("Error registering user:", error);

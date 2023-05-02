@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PasswordItem from "./PasswordItem";
 
-const PasswordList: any = (props) => {
+const PasswordList: any = (props: { passwordList: any[] }) => {
   const [passwords, setPasswords] = useState([]);
 
   useEffect(() => {
@@ -10,7 +10,7 @@ const PasswordList: any = (props) => {
 
   return (
     <div className="space-y-4">
-      {props.passwords.map((password) => (
+      {props.passwordList.map((password) => (
         <PasswordItem
           key={password.id}
           title={password.title}

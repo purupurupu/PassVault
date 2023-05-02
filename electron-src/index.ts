@@ -81,8 +81,11 @@ ipcMain.on(
 
 ipcMain.on(
   "create-password",
-  async (event: IpcMainEvent, data: { email: string; password: string }) => {
-    const res = await createPassword(data.email, data.password);
+  async (
+    event: IpcMainEvent,
+    data: { userId: number; title: string; password: string }
+  ) => {
+    const res = await createPassword(data.userId, data.title, data.password);
     event.reply("create-password-response", res);
   }
 );

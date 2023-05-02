@@ -17,9 +17,6 @@ export class Password {
   title!: string;
 
   @Column({ type: "varchar" })
-  title_id!: string;
-
-  @Column({ type: "varchar" })
   encrypted_password!: string;
 
   @Column({ type: "integer" })
