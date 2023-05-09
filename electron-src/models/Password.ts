@@ -2,11 +2,9 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { User } from "./User";
 
 @Entity("passwords")
 export class Password {
@@ -28,6 +26,6 @@ export class Password {
   @UpdateDateColumn({ type: "datetime" })
   updated_at!: Date;
 
-  @ManyToOne(() => User, (user) => user.passwords, { onDelete: "CASCADE" })
-  user!: User;
+  // @ManyToOne(() => User, (user) => user.passwords, { onDelete: "CASCADE" })
+  // user!: User;
 }

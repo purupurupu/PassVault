@@ -9,17 +9,19 @@ const PasswordList: any = (props: { passwordList: any[] }) => {
   }, []);
 
   return (
-    <div className="space-y-4">
-      {props.passwordList.map((password) => (
-        <PasswordItem
-          key={password.id}
-          title={password.title}
-          encryptedPassword={password.encryptedPassword}
-          onDelete={() => {}}
-          onEdit={() => {}}
-        />
-      ))}
-    </div>
+    props.passwordList.length === 0 && (
+      <div className="space-y-4">
+        {props.passwordList.map((password) => (
+          <PasswordItem
+            key={password.id}
+            title={password.title}
+            encryptedPassword={password.encryptedPassword}
+            onDelete={() => {}}
+            onEdit={() => {}}
+          />
+        ))}
+      </div>
+    )
   );
 };
 
