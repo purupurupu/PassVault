@@ -14,9 +14,14 @@ export const ipcGetPasswordList = async (userId) => {
   });
 };
 
-export const ipcCreatePassword = async (userId, title, password) => {
+export const ipcCreatePassword = async (
+  userId: number,
+  title: string,
+  password: string
+) => {
   return new Promise((resolve, reject) => {
     console.log("ipcCreatePassword");
+    console.log(userId, title, password);
 
     window.ipcRenderer.send("create-password", { userId, title, password });
 
@@ -25,7 +30,7 @@ export const ipcCreatePassword = async (userId, title, password) => {
       "create-password-response",
       (event, receivedData) => {
         console.log("create-password-response");
-
+        console.log(receivedData);
         resolve(receivedData);
       }
     );

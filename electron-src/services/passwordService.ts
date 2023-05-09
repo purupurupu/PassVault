@@ -35,7 +35,8 @@ export const createPassword = async (
     newPassword.encrypted_password = hashedPassword;
     newPassword.user_id = userId;
 
-    if (newPassword !== null) {
+    if (newPassword == null) {
+      console.log("newPassword is null");
       return false;
     }
 

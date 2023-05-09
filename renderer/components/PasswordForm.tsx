@@ -5,13 +5,15 @@ interface PasswordFormProps {
   onSubmit: (title: string, password: string) => void;
 }
 
-const PasswordForm: any = (userId) => {
+const PasswordForm: any = (props: any) => {
   const [title, setTitle] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    ipcCreatePassword(userId, title, password);
+    // console.log(props.userId, title, password);
+
+    ipcCreatePassword(props.userId, title, password);
     setTitle("");
     setPassword("");
   };
