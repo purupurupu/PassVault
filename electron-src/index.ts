@@ -11,6 +11,7 @@ import { AppDataSource } from "./data-source";
 import "reflect-metadata";
 
 import { userLogin, userRegister } from "./services/authService";
+import { createPassword, getPasswordList } from "./services/passwordService";
 
 // Prepare the renderer once the app is ready
 
@@ -58,9 +59,6 @@ ipcMain.on(
   "user-login",
   async (event: IpcMainEvent, data: { email: string; password: string }) => {
     const res = await userLogin(data.email, data.password);
-    // if (res) {
-    //   console.log(res);
-    // }
     event.reply("user-login-response", res);
   }
 );
@@ -69,9 +67,25 @@ ipcMain.on(
   "user-register",
   async (event: IpcMainEvent, data: { email: string; password: string }) => {
     const res = await userRegister(data.email, data.password);
-    // if (res) {
-    //   console.log(res);
-    // }
     event.reply("user-register-response", res);
+  }
+);
+
+ipcMain.on(
+  "get-all-passwords",
+  async (event: IpcMainEvent, data: { userId: number }) => {
+    const res = await getPasswordList(data.userId);
+    event.reply("get-all-passwords-response", res);
+  }
+);
+
+ipcMain.on(
+  "create-password",
+  async (
+    event: IpcMainEvent,
+    data: { userId: number; title: string; password: string }
+  ) => {
+    const res = await createPassword(data.userId, data.title, data.password);
+    event.reply("create-password-response", res);
   }
 );

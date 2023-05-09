@@ -5,7 +5,7 @@ import { hash, compare } from "bcrypt";
 export const userLogin = async (email: any, password: string) => {
   try {
     const userRepository = AppDataSource.getRepository(User);
-    const user = await userRepository.findOne({
+    const user: User | null = await userRepository.findOne({
       where: { email: email },
     });
 
@@ -26,7 +26,7 @@ export const userLogin = async (email: any, password: string) => {
   }
 };
 
-export const userRegister = async (email: any, password: string) => {
+export const userRegister = async (email: string, password: string) => {
   try {
     const userRepository = AppDataSource.getRepository(User);
     const existingUser = await userRepository.findOne({

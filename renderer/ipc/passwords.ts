@@ -1,40 +1,33 @@
-// export const createPassword = async (
-//   userId: number,
-//   title: string,
-//   password: string
-// ) => {
-//   try {
-//     const response = await axios.post("/api/passwords/create", {
-//       userId,
-//       title,
-//       password,
-//     });
-//     return response.data;
-//   } catch (error) {
-//     throw new Error(error.response.data.error);
-//   }
-// };
-
-export const getPasswords = async (id) => {
+export const ipcGetPasswordList = async (userId) => {
   return new Promise((resolve, reject) => {
-    window.ipcRenderer.send("get-passwords", { id });
+    // console.log("ipcGetAllPasswords");
+
+    window.ipcRenderer.send("get-all-passwords", { userId });
 
     // Listen for the response from main process
-    window.ipcRenderer.once("get-passwords-response", (event, receivedData) => {
-      resolve(receivedData);
-    });
+    window.ipcRenderer.once(
+      "get-all-passwords-response",
+      (event, receivedData) => {
+        resolve(receivedData);
+      }
+    );
   });
 };
 
-export const createPassword = async (id) => {
+export const ipcCreatePassword = async (userId, title, password) => {
   return new Promise((resolve, reject) => {
-    window.ipcRenderer.send("user-login", { id });
+    console.log("ipcCreatePassword");
+
+    window.ipcRenderer.send("create-password", { userId, title, password });
 
     // Listen for the response from main process
-    window.ipcRenderer.once("user-login-response", (event, receivedData) => {
-      console.log(receivedData);
+    window.ipcRenderer.once(
+      "create-password-response",
+      (event, receivedData) => {
+        console.log("create-password-response");
 
-      resolve(receivedData);
-    });
+        resolve(receivedData);
+      }
+    );
   });
 };

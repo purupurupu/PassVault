@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PasswordItem from "./PasswordItem";
 
-const PasswordList = () => {
+const PasswordList: any = (props: { passwordList: any[] }) => {
   const [passwords, setPasswords] = useState([]);
 
   useEffect(() => {
@@ -9,17 +9,19 @@ const PasswordList = () => {
   }, []);
 
   return (
-    <div className="space-y-4">
-      {passwords.map((password) => (
-        <PasswordItem
-          key={password.id}
-          title={password.title}
-          encryptedPassword={password.encryptedPassword}
-          onDelete={() => {}}
-          onEdit={() => {}}
-        />
-      ))}
-    </div>
+    props.passwordList.length === 0 && (
+      <div className="space-y-4">
+        {props.passwordList.map((password) => (
+          <PasswordItem
+            key={password.id}
+            title={password.title}
+            encryptedPassword={password.encryptedPassword}
+            onDelete={() => {}}
+            onEdit={() => {}}
+          />
+        ))}
+      </div>
+    )
   );
 };
 

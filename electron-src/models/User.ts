@@ -2,11 +2,9 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Password } from "./Password";
 
 @Entity("users")
 export class User {
@@ -24,7 +22,4 @@ export class User {
 
   @UpdateDateColumn({ type: "datetime" })
   updated_at!: Date;
-
-  @OneToMany(() => Password, (password) => password.user)
-  passwords!: Password[];
 }

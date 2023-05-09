@@ -1,16 +1,17 @@
 import React, { useState } from "react";
+import { ipcCreatePassword } from "../ipc/passwords";
 
 interface PasswordFormProps {
   onSubmit: (title: string, password: string) => void;
 }
 
-const PasswordForm: any = ({ onSubmit }) => {
+const PasswordForm: any = (userId) => {
   const [title, setTitle] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(title, password);
+    ipcCreatePassword(userId, title, password);
     setTitle("");
     setPassword("");
   };
