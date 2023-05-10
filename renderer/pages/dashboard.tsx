@@ -36,8 +36,11 @@ export default function Dashboard() {
               <p>
                 Welcome, {user.email} (User ID: {user.id})
               </p>
-              <PasswordForm userId={user.id} />
-              <PasswordList passwordList={(user.id, passwordList)} />
+              <PasswordForm
+                userId={user.id}
+                setPasswordList={setPasswordList}
+              />
+              <PasswordList userId={user.id} passwordList={passwordList} />
             </div>
           )}
         </div>
