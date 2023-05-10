@@ -14,6 +14,7 @@ const PasswordForm: any = (props: any) => {
     // console.log(props.userId, title, password);
 
     ipcCreatePassword(props.userId, title, password);
+    props.setPasswordList((prev: any) => [...prev, { title, password }]);
     setTitle("");
     setPassword("");
   };
