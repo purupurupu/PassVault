@@ -47,3 +47,53 @@ export const createPassword = async (
     return { message: "Internal server error", error };
   }
 };
+
+export const deletePassword = async (passwordId: number) => {
+  try {
+    const passwordRepository = AppDataSource.getRepository(Password);
+    await passwordRepository.delete(passwordId);
+    return true;
+  } catch (error) {
+    console.error("Error deleting password:", error);
+    return false;
+  }
+};
+
+// export const updatePassword = async (
+//   passwordId: number,
+//   newPassword: string
+// ) => {
+//   try {
+//     const passwordRepository = AppDataSource.getRepository(Password);
+//     await passwordRepository.update(
+//       Password,
+//       { id: passwordId },
+//       {
+//         encrypted_password: newPassword,
+//       }
+//     );
+//     return true;
+//   } catch (error) {
+//     console.error("Error updating password:", error);
+//     return false;
+//   }
+// };
+
+export const updatePassword = async (
+  passwordId: number,
+  newPassword: string
+) => {
+  try {
+    const passwordRepository = AppDataSource.getRepository(Password);
+    const passwordToUpdate: any = await passwordRepository.findOneBy({
+      id: passwordId,
+    });
+    passwordToUpdate.encrypted_password = newPassword;
+    await passwordRepository.save(passwordToUpdate);
+
+    return true;
+  } catch (error) {
+    console.error("Error updating password:", error);
+    return false;
+  }
+};

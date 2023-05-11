@@ -11,7 +11,11 @@ import { AppDataSource } from "./data-source";
 import "reflect-metadata";
 
 import { userLogin, userRegister } from "./services/authService";
-import { createPassword, getPasswordList } from "./services/passwordService";
+import {
+  createPassword,
+  deletePassword,
+  getPasswordList,
+} from "./services/passwordService";
 
 // Prepare the renderer once the app is ready
 
@@ -87,5 +91,13 @@ ipcMain.on(
   ) => {
     const res = await createPassword(data.userId, data.title, data.password);
     event.reply("create-password-response", res);
+  }
+);
+
+ipcMain.on(
+  "delete-password",
+  async (event: IpcMainEvent, data: { passwordId: number }) => {
+    const res = await deletePassword(data.passwordId);
+    event.reply("delete-password-response", res);
   }
 );

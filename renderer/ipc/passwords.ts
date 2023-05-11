@@ -36,3 +36,22 @@ export const ipcCreatePassword = async (
     );
   });
 };
+
+export const ipcDeletePassword = async (passwordId: number) => {
+  return new Promise((resolve, reject) => {
+    console.log("ipcDeletePassword");
+    console.log(passwordId);
+
+    window.ipcRenderer.send("delete-password", { passwordId });
+
+    // Listen for the response from main process
+    window.ipcRenderer.once(
+      "delete-password-response",
+      (event, receivedData) => {
+        console.log("delete-password-response");
+        console.log(receivedData);
+        resolve(receivedData);
+      }
+    );
+  });
+};
