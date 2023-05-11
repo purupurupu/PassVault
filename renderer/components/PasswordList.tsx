@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import PasswordItem from "./PasswordItem";
 import { ipcDeletePassword } from "../ipc/passwords";
 
-const PasswordList: any = (props: any) => {
-  const [passwords, setPasswords] = useState([]);
-
+const PasswordList = (props: any) => {
   useEffect(() => {
     // Fetch the list of passwords and update the state
   }, [props.passwordList]);
@@ -13,7 +11,9 @@ const PasswordList: any = (props: any) => {
     const result = await ipcDeletePassword(passwordId);
     if (result) {
       // Remove the password from the state
-      setPasswords(passwords.filter((password) => password.id !== passwordId));
+      props.setPasswordList(
+        props.passwordList.filter((password: any) => password.id !== passwordId)
+      );
     } else {
       console.error("Failed to delete password");
     }
