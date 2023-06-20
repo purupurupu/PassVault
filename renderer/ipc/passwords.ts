@@ -55,3 +55,31 @@ export const ipcDeletePassword = async (passwordId: number) => {
     );
   });
 };
+
+// update password
+export const ipcUpdatePassword = async (
+  passwordId: number,
+  title: string,
+  newPassword: string
+) => {
+  return new Promise((resolve, reject) => {
+    console.log("ipcUpdatePassword");
+    console.log(passwordId);
+
+    window.ipcRenderer.send("update-password", {
+      passwordId,
+      title,
+      newPassword,
+    });
+
+    // Listen for the response from main process
+    window.ipcRenderer.once(
+      "update-password-response",
+      (event, receivedData) => {
+        console.log("update-password-response");
+        console.log(receivedData);
+        resolve(receivedData);
+      }
+    );
+  });
+};

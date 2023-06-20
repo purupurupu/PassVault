@@ -59,28 +59,9 @@ export const deletePassword = async (passwordId: number) => {
   }
 };
 
-// export const updatePassword = async (
-//   passwordId: number,
-//   newPassword: string
-// ) => {
-//   try {
-//     const passwordRepository = AppDataSource.getRepository(Password);
-//     await passwordRepository.update(
-//       Password,
-//       { id: passwordId },
-//       {
-//         encrypted_password: newPassword,
-//       }
-//     );
-//     return true;
-//   } catch (error) {
-//     console.error("Error updating password:", error);
-//     return false;
-//   }
-// };
-
 export const updatePassword = async (
   passwordId: number,
+  title: string,
   newPassword: string
 ) => {
   try {
@@ -88,7 +69,10 @@ export const updatePassword = async (
     const passwordToUpdate: any = await passwordRepository.findOneBy({
       id: passwordId,
     });
-    passwordToUpdate.encrypted_password = newPassword;
+    const hashedPassword = await hash(newPassword, 10);
+
+    passwordToUpdate.title = title;
+    passwordToUpdate.encrypted_password = hashedPassword;
     await passwordRepository.save(passwordToUpdate);
 
     return true;

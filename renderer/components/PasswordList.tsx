@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PasswordItem from "./PasswordItem";
-import { ipcDeletePassword } from "../ipc/passwords";
+import { ipcDeletePassword, ipcUpdatePassword } from "../ipc/passwords";
 
 const PasswordList = (props: any) => {
   useEffect(() => {
@@ -19,22 +19,31 @@ const PasswordList = (props: any) => {
     }
   };
 
-  // const handleEdit = async (passwordId: number, newPassword: string) => {
-  //   const result = await updatePassword(passwordId, newPassword);
-  //   if (result) {
-  //     // Update the password in the state
-  //     setPasswords(
-  //       passwords.map((password) =>
-  //         password.id === passwordId
-  //           ? { ...password, encryptedPassword: newPassword }
-  //           : password
-  //       )
-  //     );
-  //   } else {
-  //     console.error("Failed to update password");
-  //   }
-  // };
-  // console.log(props.passwordList);
+  const handleUpdate = async (
+    passwordId: number,
+    title: string,
+    newPassword: string
+  ) => {
+    const result = await ipcUpdatePassword(passwordId, title, newPassword);
+    if (result) {
+      // Update the password in the state
+      props.setPasswordList(
+        props.passwordList.map((password: any) => {
+          if (password.id === passwordId) {
+            return {
+              ...password,
+              title: title,
+              encryptedPassword: newPassword,
+            };
+          }
+          return password;
+        })
+      );
+    } else {
+      console.error("Failed to update password");
+    }
+  };
+  console.log(props.passwordList);
 
   return (
     <div className="space-y-4">
@@ -48,7 +57,7 @@ const PasswordList = (props: any) => {
             title={password.title}
             encryptedPassword={password.encryptedPassword}
             onDelete={handleDelete}
-            onEdit={() => {}}
+            onSubmit={handleUpdate}
           />
         ))
       )}

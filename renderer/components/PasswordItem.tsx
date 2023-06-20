@@ -1,11 +1,11 @@
-import React, { MouseEventHandler, useState } from "react";
+import React, { useState } from "react";
 
 interface PasswordItemProps {
   passwordId: number;
   title: string;
   encryptedPassword: string;
   onDelete: (passwordId: number) => void;
-  onEdit: () => void;
+  onSubmit: (passwordId: number, title: string, newPassword: string) => void;
 }
 
 const PasswordItem: React.FC<PasswordItemProps> = ({
@@ -13,12 +13,12 @@ const PasswordItem: React.FC<PasswordItemProps> = ({
   title,
   encryptedPassword,
   onDelete,
-  onEdit,
+  onSubmit,
 }) => {
-  const [editing, setEditing] = useState(false);
-  const [editTitle, setEditTitle] = useState(title);
+  const [editing, setEditing] = useState<boolean>(false);
+  const [editTitle, setEditTitle] = useState<string>(title);
   const [editEncryptedPassword, setEditEncryptedPassword] =
-    useState(encryptedPassword);
+    useState<string>("");
 
   const handleEdit = () => {
     setEditing(true);
@@ -26,11 +26,9 @@ const PasswordItem: React.FC<PasswordItemProps> = ({
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    // main processへデータを送信し、sqliteレコードを更新
-    // ipcRenderer.send("update-password", { passwordId, title, encryptedPassword });
-
-    // 編集モードを終了
+    // submit the form
+    onSubmit(passwordId, editTitle, editEncryptedPassword);
+    // exit edit mode
     setEditing(false);
   };
 

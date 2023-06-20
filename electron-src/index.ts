@@ -15,6 +15,7 @@ import {
   createPassword,
   deletePassword,
   getPasswordList,
+  updatePassword,
 } from "./services/passwordService";
 
 // Prepare the renderer once the app is ready
@@ -99,5 +100,20 @@ ipcMain.on(
   async (event: IpcMainEvent, data: { passwordId: number }) => {
     const res = await deletePassword(data.passwordId);
     event.reply("delete-password-response", res);
+  }
+);
+
+ipcMain.on(
+  "update-password",
+  async (
+    event: IpcMainEvent,
+    data: { passwordId: number; title: string; newPassword: string }
+  ) => {
+    const res = await updatePassword(
+      data.passwordId,
+      data.title,
+      data.newPassword
+    );
+    event.reply("update-password-response", res);
   }
 );
