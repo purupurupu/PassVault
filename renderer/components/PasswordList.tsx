@@ -34,12 +34,11 @@ const PasswordList = (props: any) => {
   //     console.error("Failed to update password");
   //   }
   // };
-
-  console.log(props.passwordList);
+  // console.log(props.passwordList);
 
   return (
     <div className="space-y-4">
-      {props.passwordList.length === 0 ? (
+      {props.passwordList === null || props.passwordList === false ? (
         <p className="text-lg font-semibold">No passwords found</p>
       ) : (
         props.passwordList.map((password) => (

@@ -17,12 +17,32 @@ export const useAuth = () => {
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
+    const getUser = async () => {
+      return new Promise((resolve, reject) => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+          resolve(JSON.parse(storedUser));
+        } else {
+          resolve(null);
+        }
+      });
+    };
+
+    const fetchData = async () => {
+      try {
+        const user = await getUser();
+        setUser(user);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleSetUser = (user: any) => {
@@ -33,6 +53,10 @@ export const AuthProvider: React.FC = ({ children }) => {
       localStorage.removeItem("user");
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <AuthContext.Provider value={{ user, setUser: handleSetUser }}>

@@ -8,13 +8,14 @@ import { ipcGetPasswordList } from "../ipc/passwords";
 import { Password } from "../../electron-src/models/Password";
 
 export default function Dashboard() {
-  const [passwordList, setPasswordList] = useState<Password[]>([]);
+  const [passwordList, setPasswordList] = useState<Password[] | null>(null);
   const router = useRouter();
   const { user } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
       try {
+        // When password list is empty, it returns false
         const data: any = await ipcGetPasswordList(user.id);
         setPasswordList(data);
       } catch (err) {
