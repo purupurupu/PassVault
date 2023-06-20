@@ -2,19 +2,29 @@ import React, { useState } from "react";
 import { ipcCreatePassword } from "../ipc/passwords";
 
 interface PasswordFormProps {
-  onSubmit: (title: string, password: string) => void;
+  id: number;
+  title: string;
+  encrypted_password: string;
 }
 
 const PasswordForm: any = (props: any) => {
   const [title, setTitle] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // console.log(props.userId, title, password);
 
-    ipcCreatePassword(props.userId, title, password);
-    props.setPasswordList((prev: any) => [...prev, { title, password }]);
+    let result: any = await ipcCreatePassword(props.userId, title, password);
+
+    props.setPasswordList((prev: any) => [
+      ...prev,
+      {
+        id: result.id,
+        title: result.title,
+        encrypted_password: result.encrypted_password,
+      },
+    ]);
     setTitle("");
     setPassword("");
   };

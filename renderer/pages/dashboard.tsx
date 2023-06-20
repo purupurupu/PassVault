@@ -5,15 +5,17 @@ import { useAuth } from "../context/AuthContext";
 import PasswordForm from "../components/PasswordForm";
 import PasswordList from "../components/PasswordList";
 import { ipcGetPasswordList } from "../ipc/passwords";
+import { Password } from "../../electron-src/models/Password";
 
 export default function Dashboard() {
-  const [passwordList, setPasswordList] = useState([]);
+  const [passwordList, setPasswordList] = useState<Password[] | null>(null);
   const router = useRouter();
   const { user } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
       try {
+        // When password list is empty, it returns false
         const data: any = await ipcGetPasswordList(user.id);
         setPasswordList(data);
       } catch (err) {
@@ -40,7 +42,11 @@ export default function Dashboard() {
                 userId={user.id}
                 setPasswordList={setPasswordList}
               />
-              <PasswordList userId={user.id} passwordList={passwordList} />
+              <PasswordList
+                userId={user.id}
+                passwordList={passwordList}
+                setPasswordList={setPasswordList}
+              />
             </div>
           )}
         </div>
